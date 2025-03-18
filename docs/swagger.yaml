@@ -1,0 +1,94 @@
+basePath: /
+definitions:
+  domain.Payment:
+    properties:
+      amount:
+        type: number
+      createdAt:
+        type: string
+      currency:
+        type: string
+      id:
+        type: string
+      status:
+        $ref: '#/definitions/domain.PaymentStatus'
+      updatedAt:
+        type: string
+    type: object
+  domain.PaymentStatus:
+    enum:
+    - pending
+    - approved
+    - rejected
+    type: string
+    x-enum-varnames:
+    - PaymentStatusPending
+    - PaymentStatusApproved
+    - PaymentStatusRejected
+host: localhost:8080
+info:
+  contact: {}
+  description: Payment Gateway Service with Momo integration
+  title: Payment Gateway API
+  version: "1.0"
+paths:
+  /api/v1/payments:
+    post:
+      consumes:
+      - application/json
+      description: Create a new payment transaction
+      parameters:
+      - description: Payment Request
+        in: body
+        name: payment
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Payment'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/domain.Payment'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create a new payment
+      tags:
+      - payments
+  /api/v1/payments/{id}:
+    get:
+      description: Get payment details by ID
+      parameters:
+      - description: Payment ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Payment'
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get payment by ID
+      tags:
+      - payments
+swagger: "2.0"

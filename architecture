@@ -1,0 +1,22 @@
+payment-gw/
+├── main.go
+├── cmd/
+│   ├── root.go
+│   ├── serve.go
+│   └── version.go
+├── internal/
+│   ├── core/
+│   │   ├── domain/           # Business entities
+│   │   │   └── payment.go
+│   │   ├── ports/
+│   │   │   ├── input/        # Input ports (use cases)
+│   │   │   └── output/       # Output ports (repositories, external services)
+│   │   └── services/         # Use case implementations
+│   └── adapters/
+│       ├── primary/          # Input adapters
+│       │   └── http/         # HTTP/REST adapter
+│       └── secondary/        # Output adapters
+│           └── repository/   # Database adapters
+├── pkg/
+├── go.mod
+└── .gitignore
